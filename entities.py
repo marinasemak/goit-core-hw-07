@@ -1,6 +1,18 @@
 from datetime import datetime
 
 
+class FieldValidationError(Exception):
+    pass
+
+
+class MissingValueError(Exception):
+    pass
+
+
+class MissingArgumentsError(Exception):
+    pass
+
+
 class Field:
     """
     Basic class for records fields
@@ -24,7 +36,7 @@ class Name(Field):
 
     def validate_field(self):
         if len(self.value) < 1:
-            raise ValueError("Name can't be empty")
+            raise FieldValidationError("Name can't be empty")
 
 
 class Phone(Field):
@@ -34,10 +46,13 @@ class Phone(Field):
 
     def validate_field(self):
         if len(self.value) != 10:
-            raise ValueError("Phone number must be 10 digits long")
+            raise FieldValidationError("Phone number must be 10 digits long")
 
 
 class Birthday(Field):
+    """
+    Class for saving and validating contact birthday
+    """
 
     def validate_field(self):
         """
@@ -46,4 +61,7 @@ class Birthday(Field):
         try:
             self.value = datetime.strptime(self.value, "%d.%m.%Y").date()
         except ValueError:
-            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+            raise FieldValidationError("Invalid date format. Use DD.MM.YYYY")
+
+    def __str__(self):
+        return self.value.strftime("%d.%m.%Y")

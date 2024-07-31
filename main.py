@@ -1,4 +1,12 @@
-from commands_handler import add_contact, show_phone, show_all
+from commands_handler import (
+    add_contact,
+    change_contact,
+    show_phone,
+    show_all,
+    add_birthday,
+    show_birthday,
+    birthdays,
+)
 from parse_input import parse_input
 from functionality import AddressBook
 
@@ -19,11 +27,17 @@ def main():
             case "add":
                 print(add_contact(args, record))
             case "change":
-                print(add_contact(args, record))
+                print(change_contact(args, record))
             case "phone":
                 print(show_phone(args, record))
             case "all":
                 print(show_all(record))
+            case "add-birthday":
+                print(add_birthday(args, record))
+            case "show-birthday":
+                print(show_birthday(args, record))
+            case "birthdays":
+                print(birthdays(record))
             case _:
                 print("Invalid command.")
 

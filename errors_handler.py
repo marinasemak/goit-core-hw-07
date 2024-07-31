@@ -1,4 +1,5 @@
 from functools import wraps
+from entities import FieldValidationError, MissingValueError, MissingArgumentsError
 
 
 def input_error(func):
@@ -6,22 +7,13 @@ def input_error(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except ValueError:
-            return "Give me name and phone please."
-        except IndexError:
-            return "Give me the contact name."
+        except ValueError as e:
+            return e
+        except FieldValidationError as e:
+            return e
+        except MissingValueError as e:
+            return e
+        except MissingArgumentsError as e:
+            return e
 
     return inner
-
-
-# @input_error
-# def add_contact(args, contacts):
-#     name, phone = args
-#     contacts[name] = phone
-#     return "Contact added."
-
-
-# def parse_input(user_input):
-#     cmd, *args = user_input.split()
-#     cmd = cmd.strip().lower()
-#     return cmd, *args
